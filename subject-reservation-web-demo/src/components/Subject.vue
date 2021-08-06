@@ -1,61 +1,59 @@
 <template>
   <div>
-      <v-card
-      class="pa-md-0 mx-auto"
-      max-width="344"
-    >
-    <v-container fluid>
-      <v-layout column>
-      <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        height="200px"
-      ></v-img>
+    <v-progress-linear indeterminate color="cyan"></v-progress-linear>
+    <v-card class="pa-md-0 mx-auto" max-width="344">
+      <v-container fluid>
+        <v-layout column>
+          <v-img
+            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+            height="200px"
+          ></v-img>
 
-      <v-card-title>
-        Top western road trips
-      </v-card-title>
-
-      <v-card-subtitle>
-        1,000 miles of wonder
-      </v-card-subtitle>
-
-      <v-card-actions>
-        <v-btn
-          color="orange lighten-2"
-          text
-        >
-          Explore
-        </v-btn>
-
-        <v-spacer></v-spacer>
-
-        <v-btn
-          icon
-          @click="show = !show"
-        >
-          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        </v-btn>
-      </v-card-actions>
-
-      <v-expand-transition>
-        <div v-show="show">
-          <v-divider></v-divider>
-
-          <v-card-text>
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-          </v-card-text>
-        </div>
-      </v-expand-transition>
-      </v-layout>
-    </v-container>
+          <v-card-title>
+            {{ subject.subjectId }} <br />
+            {{ subject.subjectName }}
+          </v-card-title>
+          <v-card-subtitle>
+            <p>
+              Maximum: {{ subject.quota }} | Current:
+              {{ subject.currentStudentNumber }}
+            </p>
+          </v-card-subtitle>
+          <v-card-actions>
+            <v-btn color="orange lighten-2" text @click="reserveSubject()">
+              Reserve
+            </v-btn>
+          </v-card-actions>
+        </v-layout>
+      </v-container>
     </v-card>
   </div>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      show: false,
-    }),
-  }
+import axios from "axios";
+//import { fetchSubjectList } from "../service/subject";
+export default {
+  data: () => ({
+    show: false,
+  }),
+  props: {
+    subject: {
+      type: Object,
+      default: () => ({
+        subjectId: "int101",
+        quota: 30,
+        currentStudentNumber: 0,
+        subjectName: "Introduction to Java 1",
+      }),
+    },
+  },
+  methods: {
+    reserveSubject: async function () {
+      await axios.post(`subject/${this.subject.subjectId}/reserve`);
+      this.$emit('fetchSubjects')
+
+    },
+  },
+};
 </script>
