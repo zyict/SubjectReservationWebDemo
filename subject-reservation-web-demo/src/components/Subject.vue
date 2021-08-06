@@ -1,6 +1,5 @@
 <template>
   <div>
-    <v-progress-linear indeterminate color="cyan"></v-progress-linear>
     <v-card class="pa-md-0 mx-auto" max-width="344">
       <v-container fluid>
         <v-layout column>
@@ -50,9 +49,15 @@ export default {
   },
   methods: {
     reserveSubject: async function () {
-      await axios.post(`subject/${this.subject.subjectId}/reserve`);
-      this.$emit('fetchSubjects')
-
+      const loader = this.$loading.show();
+      try {
+        await axios.post(`subject/${this.subject.subjectId}/reserve`);
+      } catch (err) {
+        console.error(err.message);
+        this.$emit("subjectIsMax");
+      }
+      this.$emit("fetchSubjects");
+      loader.hide();
     },
   },
 };

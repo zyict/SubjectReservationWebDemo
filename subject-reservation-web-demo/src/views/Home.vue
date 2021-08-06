@@ -7,9 +7,25 @@
     <br />
     <v-row justify="center" align="top" no-gutters style="height: 150px">
       <v-col v-for="subject in subjectList" :key="subject.subjectId" cols="3">
-        <subject :subject="subject" @fetchSubjects="getSubjectList()" />
+        <subject :subject="subject" @fetchSubjects="getSubjectList()" @subjectIsMax="errorSubjectIsMax()" />
       </v-col>
     </v-row>
+    <v-dialog v-model="isError" width="500">
+
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          Notification from Ajarn
+        </v-card-title>
+        <v-card-text>
+          อาจารย์ซึ้งใจเป็นอย่างมากที่ทุกคนตั้งใจกันอยากเรียนแต่วิชาเต็มแล้ว TwT
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="isError = false"> ยอมรับน้ำตาไหล </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -32,14 +48,22 @@ export default {
         subjectName: "Introduction to Java 1",
       },
     ],
+    isError: false,
   }),
   mounted() {
     this.getSubjectList();
   },
   methods: {
     getSubjectList: async function () {
-      this.subjectList = await fetchSubjectList();
+      try {
+        this.subjectList = await fetchSubjectList();
+      } catch (error) {
+        console.log(error.message);
+      }
     },
+    errorSubjectIsMax: function(){
+        this.isError = true;
+    }
   },
 };
 </script>
