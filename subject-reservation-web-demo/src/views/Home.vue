@@ -6,7 +6,7 @@
     </p>
     <br />
     <v-row justify="center" align="top" no-gutters style="height: 150px">
-      <v-col v-for="subject in subjectList" :key="subject.subjectId" cols="3">
+      <v-col v-for="subject in subjectList" :key="subject.subjectId" cols="3" class="pa-2">
         <subject :subject="subject" @fetchSubjects="getSubjectList()" @subjectIsMax="errorSubjectIsMax()" />
       </v-col>
     </v-row>
@@ -57,6 +57,9 @@ export default {
     getSubjectList: async function () {
       try {
         this.subjectList = await fetchSubjectList();
+        this.subjectList.forEach(subject => {
+          subject.image = 'https://quarkus.io/assets/images/quarkus_card.png'
+        });
       } catch (error) {
         console.log(error.message);
       }

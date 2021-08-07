@@ -4,13 +4,15 @@
       <v-container fluid>
         <v-layout column>
           <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+            :src="subject.image"
             height="200px"
           ></v-img>
 
           <v-card-title>
             {{ subject.subjectId }} <br />
-            {{ subject.subjectName }}
+            <p >
+              {{ subject.subjectName }}
+            </p>
           </v-card-title>
           <v-card-subtitle>
             <p>
@@ -44,6 +46,7 @@ export default {
         quota: 30,
         currentStudentNumber: 0,
         subjectName: "Introduction to Java 1",
+        image: "https://quarkus.io/assets/images/quarkus_card.png"
       }),
     },
   },

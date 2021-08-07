@@ -1,5 +1,10 @@
 # subject-reservation-web-demo
 
+Required ENV
+```
+VUE_APP_BACKEND_SERVICE=http://localhost:9090
+```
+
 ## Project setup
 ```
 npm install
